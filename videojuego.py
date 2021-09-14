@@ -18,6 +18,9 @@ food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
 
+print("¡Bienvenido al juego snake!")
+print("\nElige la velocidad (Baja, Media, Alta): ")
+velocidad = input()
 
 def change(x, y):
     "Change snake direction."
@@ -35,10 +38,13 @@ def move():
     head = snake[-1].copy()
     head.move(aim)
 
-    if not inside(head) or head in snake:
+    if  head in snake:
         square(head.x, head.y, 9, 'red')
         update()
         return
+    elif not inside(head):
+        square(head.x, head.y, 9, 'red')
+        update()
 
     snake.append(head)
 
@@ -56,7 +62,14 @@ def move():
 
     square(food.x, food.y, 9, 'green')
     update()
-    ontimer(move, 100)
+    if (velocidad == "Baja"):
+        ontimer(move, 200)
+    elif (velocidad == "Media"):
+        ontimer(move, 100)
+    elif (velocidad == "Alta"):
+        ontimer(move, 50)
+    else:
+        ontimer(move,150)
 
 
 setup(420, 420, 370, 0)
