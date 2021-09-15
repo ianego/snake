@@ -17,6 +17,7 @@ from freegames import square, vector
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
+indicador = 0 
 
 print("¡Bienvenido al juego snake!")
 print("\nElige la velocidad (Baja, Media, Alta): ")
@@ -37,14 +38,41 @@ def move():
     "Move snake forward one segment."
     head = snake[-1].copy()
     head.move(aim)
-
-    if  head in snake:
-        square(head.x, head.y, 9, 'red')
-        update()
-        return
+    global indicador
+    
+    if  (head in snake):
+        if (indicador == 0):
+            square(head.x, head.y, 9, 'red')
+            update()
+            return
+        else:
+            indicador = 0
     elif not inside(head):
-        square(head.x, head.y, 9, 'red')
-        update()
+        if (not (head.y < 190)):
+            indicador = 1
+            for i in snake:
+                change(0, -9)
+                change(0, -9)
+            change(0, -10)
+        elif (not (-200 < head.y)):
+            indicador = 1
+            for i in snake:
+                change(0, 9)
+                change(0, 9)
+            change(0, 10)
+        elif (not (head.x < 190)):
+            indicador = 1
+            for i in snake:
+                change(-9, 0)
+                change(-9, 0)
+            change(-10, 0)
+        elif (not (-200 < head.x)):
+            indicador = 1
+            for i in snake:
+                change(9, 0)
+                change(9, 0)
+            change(10, 0)
+
 
     snake.append(head)
 
