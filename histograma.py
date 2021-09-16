@@ -5,8 +5,8 @@ Created on Wed Sep 15 14:34:48 2021
 @author: ricky
 """
 
-"from matplotlib import pyplot as plt"
-"import matplotlib.ticker as ticker"
+from matplotlib import pyplot as plt
+import matplotlib.ticker as ticker
 
 def lectura_texto():
     archivo_texto = open('GEH.txt', 'r')
@@ -26,7 +26,7 @@ def separacion_texto(texto):
     
     for i in range(len(texto)):
         linea = texto[i].replace("\n", "")
-        renglon.append(linea)
+        renglon.append(linea.upper())
     for j in range(len(renglon)):
         palabra = renglon[j].split(" ")
         palabras = palabras + palabra
@@ -54,9 +54,25 @@ def contador_palabras(texto_separado,palabras):
         num_palabras.append(num_veces)
     
     return num_palabras
-        
-texto = lectura_texto()
-texto_separado = separacion_texto(texto)
-palabras = lista_palabras(texto_separado)
-num_palabras = contador_palabras(texto_separado, palabras)
-print(num_palabras)
+
+def graficas_palabras(palabras, num_palabras):
+    
+    fig, axs = plt.subplots(5, 1, figsize=(15, 15))
+    
+    axs[0].bar(palabras[:10],num_palabras[:10])
+    axs[1].bar(palabras[10:20],num_palabras[10:20])
+    axs[2].bar(palabras[20:30],num_palabras[20:30])
+    axs[3].bar(palabras[30:40],num_palabras[30:40])
+    axs[4].bar(palabras[40:],num_palabras[40:])
+    
+    fig.suptitle('Histograma "Green Eggs and Ham Word Frequency"')
+
+def main():
+    
+    texto = lectura_texto()
+    texto_separado = separacion_texto(texto)
+    palabras = lista_palabras(texto_separado)
+    num_palabras = contador_palabras(texto_separado, palabras)
+    graficas_palabras(palabras, num_palabras)
+
+main()
