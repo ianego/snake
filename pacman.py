@@ -29,11 +29,11 @@ tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
@@ -42,7 +42,7 @@ tiles = [
     0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
     0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -124,19 +124,89 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
-        if valid(point + course):
-            point.move(course)
+        if (point.x < pacman.x):
+            plan = vector(5, 0)
+            course.x = plan.x
+            course.y = plan.y
+            if valid(point + course):
+                point.move(course)
+            else:
+                options = [
+                    vector(0, 5),
+                    vector(0, -5),
+                    vector(-5, 0),
+                ]
+                plan = choice(options)
+                course.x = plan.x
+                course.y = plan.y
+                if valid(point + course):
+                    point.move(course)
+
+        elif (point.y < pacman.y):
+            plan = vector(0, 5)
+            course.x = plan.x
+            course.y = plan.y
+            if valid(point + course):
+                point.move(course)
+            else:
+                options = [
+                    vector(5, 0),
+                    vector(0, -5),
+                    vector(-5, 0),
+                ]
+                plan = choice(options)
+                course.x = plan.x
+                course.y = plan.y
+                if valid(point + course):
+                    point.move(course)
+                
+        elif (point.x > pacman.x):
+            plan = vector(-5, 0)
+            course.x = plan.x
+            course.y = plan.y
+            if valid(point + course):
+                point.move(course)
+            else:
+                options = [
+                    vector(5, 0),
+                    vector(0, -5),
+                    vector(0, 5),
+                ]
+                plan = choice(options)
+                course.x = plan.x
+                course.y = plan.y
+                if valid(point + course):
+                    point.move(course)
+                
+        elif (point.y > pacman.y):
+            plan = vector(0, -5)
+            course.x = plan.x
+            course.y = plan.y
+            if valid(point + course):
+                point.move(course)
+            else:
+                options = [
+                    vector(5, 0),
+                    vector(0, 5),
+                    vector(-5, 0),
+                ]
+                plan = choice(options)
+                course.x = plan.x
+                course.y = plan.y
+                if valid(point + course):
+                    point.move(course)
         else:
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                    vector(5, 0),
+                    vector(0, 5),
+                    vector(-5, 0),
+                    vector(0, -5),
             ]
             plan = choice(options)
             course.x = plan.x
             course.y = plan.y
-
+            if valid(point + course):
+                point.move(course)
         up()
         goto(point.x + 10, point.y + 10)
         dot(20, 'red')
@@ -147,7 +217,7 @@ def move():
         if abs(pacman - point) < 20:
             return
 
-    ontimer(move, 50)
+    ontimer(move, 20)
 
 def change(x, y):
     "Change pacman aim if valid."
